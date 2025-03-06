@@ -16,7 +16,8 @@ datasource db {
 model User {
   id        Int      @id @default(autoincrement())
   email     String   @unique
-  name      String?
+  password String
+  name      String
   folders   Folder[]
   notes    Note[]
   createdAt DateTime @default(now())
