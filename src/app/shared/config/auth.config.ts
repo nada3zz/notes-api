@@ -6,8 +6,9 @@ export default registerAs(
     jwt: {
       accessToken: {
         secretKey: process.env.AUTH_JWT_ACCESS_TOKEN_SECRET_KEY,
-        expirationTime: 30,
+        expirationTime: 1000,
       },
     },
   }),
 );
+
