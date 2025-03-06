@@ -93,6 +93,6 @@ export class AuthService {
   async buildUserTokenResponse(id: number, email: string) {
     const { accessToken } = await this.generateTokens(id, email);
 
-    return { accessToken };
+    return accessToken ;
   }
 }
