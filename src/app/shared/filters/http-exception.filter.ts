@@ -13,7 +13,7 @@ export class HttpExceptionFilter implements ExceptionFilter {
   private readonly env: string;
 
   constructor(private readonly configService: ConfigService) {
-    this.env = this.configService.get<string>('NODE_ENV', 'production');
+    this.env = this.configService.get<string>('NODE_ENV') || 'production';
   }
 
   catch(exception: HttpException, host: ArgumentsHost): void {
@@ -26,11 +26,11 @@ export class HttpExceptionFilter implements ExceptionFilter {
       status === HttpStatus.INTERNAL_SERVER_ERROR
         ? 'Internal server error'
         : 'An error occurred';
-
+    const devMessage= exception.getResponse()
     response.status(status).json({
       statusCode: status,
       type: isDevelopment ? exception.name : undefined,
-      message: isDevelopment ? exception.message : message,
+      ...( isDevelopment ? { devMessage, stack: exception.stack } : { message: message})
     });
   }
 }
