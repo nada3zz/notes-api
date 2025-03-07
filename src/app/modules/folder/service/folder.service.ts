@@ -1,4 +1,9 @@
-import { BadRequestException, NotFoundException, ForbiddenException, Injectable } from '@nestjs/common';
+import {
+  BadRequestException,
+  NotFoundException,
+  ForbiddenException,
+  Injectable,
+} from '@nestjs/common';
 import { FolderRepository } from '../repository/folder.repository';
 import { CreateFolderDto } from '../dtos';
 import { ErrorMessagesMapping } from 'src/app/shared/Enums/error-messages-mapping';
@@ -7,7 +12,7 @@ import { Prisma } from '@prisma/client';
 @Injectable()
 export class FolderService {
   constructor(private readonly folderRepository: FolderRepository) {}
-  
+
   async createFolder(folderDto: CreateFolderDto, userId: number) {
     const { name } = folderDto;
 
@@ -20,7 +25,7 @@ export class FolderService {
       throw new BadRequestException(ErrorMessagesMapping.Folder_Already_Exists);
     }
 
-    return this.folderRepository.create({
+    return await this.folderRepository.create({
       ...folderDto,
       user: {
         connect: {
@@ -30,13 +35,21 @@ export class FolderService {
     });
   }
 
-  async getAllFolders(userId: number, page: number , limit: number, order: Prisma.SortOrder = 'asc') {
-    if (!page || !limit ) limit =5; page = 1;
+  async getAllFolders(
+    userId: number,
+    page: number,
+    limit: number,
+    order: Prisma.SortOrder = 'asc',
+  ) {
+    if (!page || !limit) limit = 5;
+    page = 1;
 
     const skip = (page - 1) * limit;
     const where = { user_id: userId };
 
-    const folders = await this.folderRepository.findMany(where, skip, limit, {createdAt: order});
+    const folders = await this.folderRepository.findMany(where, skip, limit, {
+      createdAt: order,
+    });
 
     const foldersCount = await this.folderRepository.count(where);
 
@@ -92,7 +105,9 @@ export class FolderService {
       });
 
       if (folderExists) {
-        throw new BadRequestException(ErrorMessagesMapping.Folder_Already_Exists);
+        throw new BadRequestException(
+          ErrorMessagesMapping.Folder_Already_Exists,
+        );
       }
     }
 
@@ -118,4 +133,3 @@ export class FolderService {
     return { message: 'Folder deleted successfully' };
   }
 }
-
