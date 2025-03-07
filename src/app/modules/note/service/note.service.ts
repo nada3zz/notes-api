@@ -148,4 +148,11 @@ export class NoteService {
     await this.noteRepository.delete({ id });
     return { message: 'Note have been deleted successfully' };
   }
+  
+  async filterNotes(
+    folderId?: number,
+    userId?: number,
+  ) {
+    return await this.noteRepository.filter(folderId, userId);
+  }
 }

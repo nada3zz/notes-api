@@ -58,4 +58,17 @@ export class NoteRepository {
     const count = await this.prismaService.note.count({ where });
     return count > 0;
   }
+
+  async filter(folderId: number, userId: number) {
+    return this.prismaService.note.findMany({
+      where: {
+        userId, 
+        folderId, 
+      },
+      include: {
+        textNote: true,
+        listNote: true,
+      },
+    });
+  }
 }

@@ -26,6 +26,13 @@ export class NoteController {
   }
 
   @UseGuards(AccessTokenGuard)
+  @Get('/filter')
+  async filternotes(@Req() req: Request, @Query('folderId') folderId: number) {
+    const userId = req['user']['id'];
+    return await this.noteService.filterNotes(+folderId, userId);
+  }
+
+  @UseGuards(AccessTokenGuard)
   @Get()
   async getAllnotes(
     @Req() req: Request,
