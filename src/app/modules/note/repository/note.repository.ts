@@ -1,4 +1,3 @@
-// src/repositories/Note.repository.ts
 import { Injectable } from '@nestjs/common';
 import { PrismaService } from 'src/app/shared/prisma';
 import { Note, Prisma } from '@prisma/client';
@@ -64,6 +63,35 @@ export class NoteRepository {
       where: {
         userId, 
         folderId, 
+      },
+      include: {
+        textNote: true,
+        listNote: true,
+      },
+    });
+  }
+
+  async search(keyword: string, userId: number) {
+    return this.prismaService.note.findMany({
+      where: {
+        AND: [
+          { userId },
+          {
+            OR: [
+              { title: { contains: keyword, mode: 'insensitive' } },
+              {
+                textNote: {
+                  content: { contains: keyword, mode: 'insensitive' },
+                },
+              },
+              {
+                listNote: {
+                  items: { path: ['items'], array_contains: [keyword] },
+                },
+              },
+            ],
+          },
+        ],
       },
       include: {
         textNote: true,

@@ -155,4 +155,11 @@ export class NoteService {
   ) {
     return await this.noteRepository.filter(folderId, userId);
   }
+
+  async searchNotes(
+    keyword?: string,
+    userId?: number,
+  ) {
+    return await this.noteRepository.search(keyword, userId);
+  }
 }

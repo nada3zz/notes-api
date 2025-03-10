@@ -27,9 +27,16 @@ export class NoteController {
 
   @UseGuards(AccessTokenGuard)
   @Get('/filter')
-  async filternotes(@Req() req: Request, @Query('folderId') folderId: number) {
+  async filterNotes(@Req() req: Request, @Query('folderId') folderId: number) {
     const userId = req['user']['id'];
     return await this.noteService.filterNotes(+folderId, userId);
+  }
+
+  @UseGuards(AccessTokenGuard)
+  @Get('/search')
+  async searchNotes(@Req() req: Request, @Query('keyword') keyword: string) {
+    const userId = req['user']['id'];
+    return await this.noteService.searchNotes(keyword, userId);
   }
 
   @UseGuards(AccessTokenGuard)
