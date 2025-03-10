@@ -11,9 +11,9 @@ The Notes API is a RESTful API that allows users to manage notes efficiently. No
    - Text Notes: Contains a single text body.
    - List Notes: Contains multiple list items with text bodies.
 - Filter notes by folder
+- Search for notes based on keywords in the content.
 
 ## Prerequisites
-- Node.js (version 18 or higher)
 - Docker
 
 ## Installation
@@ -38,14 +38,16 @@ docker-compse up -d
 - Inside the **note-api container** Run this command:
 
  ```sh
-npx prisma db push
+> docker exec -it notes-api
+> npx prisma db push
 ```
 ### Setup the database interface:
 
 - The database schema is defined using Prisma with PostgreSQL. To visualize the DB run:
 
 ```sh
-npx prisma studio
+> docker exec -it notes-api
+> npx prisma studio
 ```
 or
 - Set up a server on pgAdmin client
