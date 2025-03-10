@@ -16,8 +16,9 @@ export const ErrorMessagesMapping = {
   Folder_Not_Found: "Folder not found",
   Folder_Already_Exists: "A folder with this name already exists",
   Folder_Id_Required: "Folder id is required",
-  Forbidden_Note: "You are not allowed to access this folder",
-  Note_Not_Found: "Folder not found",
-  Note_Already_Exists: "A folder with this name already exists",
-  Note_Id_Required: "Folder id is required",
+  Forbidden_Note: "You are not allowed to access this note",
+  Note_Not_Found: "Note not found",
+  Note_Already_Exists: "A note with this name already exists",
+  Note_Id_Required: "Note id is required",
+  User_Id_Required: "Note id is required",
 };
